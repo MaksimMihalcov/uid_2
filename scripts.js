@@ -44,9 +44,16 @@ async function sendApiRequest()
         let API_KEY = "IiQb7qkMOZGkzyPwS3lgbjTMtjRb5jhDugdBImp2";
         let response = await fetch(`https://api.nasa.gov/planetary/apod?date=${date}&api_key=${API_KEY}`);
         let data = await  response.json();
-        document.querySelector("#content").innerHTML = `<h1>${data.title}</h1>`;
-        document.querySelector("#content").innerHTML += `<p>${data.explanation}</p>`;
-        document.querySelector("#content").innerHTML += `<img src="${data.url}"/>`;
+        if(response.status === 400)
+        {
+            document.querySelector("#content").innerHTML = `<h1>Error: ${data.msg}</h1>`;
+        }
+        else
+        {
+            document.querySelector("#content").innerHTML = `<h1>${data.title}</h1>`;
+            document.querySelector("#content").innerHTML += `<p>${data.explanation}</p>`;
+            document.querySelector("#content").innerHTML += `<img src="${data.url}"/>`;
+        }
     }
     else
     {
